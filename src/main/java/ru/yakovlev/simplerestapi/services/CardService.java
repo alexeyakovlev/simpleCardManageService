@@ -112,4 +112,28 @@ public class CardService {
         cardRepository.save(cardSender);
         cardRepository.save(cardReceiver);
     }
+
+    @Transactional
+    public void deposit(Long id, BigDecimal amount) {
+        Optional<Card> optionalCard = cardRepository.findById(id);
+        if (!optionalCard.isPresent()) {
+            throw new IllegalArgumentException("Card with id " + id + " not found");
+        }
+        Card card = optionalCard.get();
+        card.setBalance(card.getBalance().add(amount));
+        cardRepository.save(card);
+        log.info("The id " + id + " card was replenished in the amount of " + amount);
+    }
+
+    @Transactional
+    public void withdraw(Long id, BigDecimal amount) {
+        Optional<Card> optionalCard = cardRepository.findById(id);
+        if (!optionalCard.isPresent()) {
+            throw new IllegalArgumentException("Card with id " + id + " not found");
+        }
+        Card card = optionalCard.get();
+        card.setBalance(card.getBalance().subtract(amount));
+        cardRepository.save(card);
+        log.info("The id " + id + " card was withdrawn in the amount of " + amount);
+    }
 }

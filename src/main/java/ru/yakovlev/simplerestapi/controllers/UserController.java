@@ -1,5 +1,8 @@
 package ru.yakovlev.simplerestapi.controllers;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.yakovlev.simplerestapi.models.User;
 import ru.yakovlev.simplerestapi.services.UserService;
@@ -10,28 +13,18 @@ import java.util.List;
 /**
  * Created by alexi on 28.06.2025
  */
-@RestController
-@RequestMapping("api/users")
+@Controller
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping
-    public List<User> allUsers() {
-        return userService.getAllUsers();
-    }
-
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.getUserById(id);
-    }
-
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    @PostMapping("/registration")
+    public String createUser(User user, Model model) {
+        if (userService.createUser(user)) {
+            model.addAttribute("errorMessage", "User with email " + user.getEmail() + " already exists");
+            return "registration";
+        }
+        return "redirect:/login";
     }
 
     @DeleteMapping(path = "{id}")
