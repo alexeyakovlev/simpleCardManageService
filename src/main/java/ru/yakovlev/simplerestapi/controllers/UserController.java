@@ -1,6 +1,7 @@
 package ru.yakovlev.simplerestapi.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,25 +19,15 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/registration")
-    public String createUser(User user, Model model) {
-        if (userService.createUser(user)) {
-            model.addAttribute("errorMessage", "User with email " + user.getEmail() + " already exists");
-            return "registration";
-        }
-        return "redirect:/login";
+    @GetMapping("/user/{user}")
+    public String userInfo(@PathVariable("user") User user, Model model) {
+        model.addAttribute("user", user);
+        return "user-info";
     }
 
-    @DeleteMapping(path = "{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-    }
-
-    @PutMapping(path = "{id}")
-    public void updateUser(@PathVariable Long id,
-                           @RequestParam String email,
-                           @RequestParam String name,
-                           @RequestParam LocalDate dateOfBirth) {
-        userService.updateUser(id, email, name, dateOfBirth);
+    @PutMapping(path = "/user/edit/{user}")
+    public String userEdit(@PathVariable("user") User user, Model model) {
+        model.addAttribute("user", user);
+        return "redirect:/user-info";
     }
 }

@@ -36,7 +36,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User createUser(User user) {
+    public void createUser(User user) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
         if (optionalUser.isPresent()) {
             throw new IllegalStateException("Пользователь с таким email уже существует");
@@ -45,7 +45,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.getRoles().add(Role.ROLE_USER);
         log.info("saving new user with email: " + user.getEmail());
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public void deleteUser(Long id) {

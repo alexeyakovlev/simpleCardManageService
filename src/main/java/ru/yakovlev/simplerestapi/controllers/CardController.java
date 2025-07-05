@@ -43,7 +43,7 @@ public class CardController {
 //    }
 
     @PostMapping
-    public Card createCard(@RequestBody Card card) {
+    public String createCard(@RequestBody Card card) {
         return cardService.createCard(card);
     }
 

@@ -49,8 +49,8 @@ public class CardService {
     }
 
     @Transactional
-    public Card createCard(Card card) {
-        return cardRepository.save(card);
+    public void createCard(Card card) {
+        cardRepository.save(card);
     }
 
     @Transactional
