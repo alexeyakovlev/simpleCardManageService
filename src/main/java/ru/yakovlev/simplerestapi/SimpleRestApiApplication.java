@@ -12,9 +12,5 @@ public class SimpleRestApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(SimpleRestApiApplication.class, args);
     }
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 }

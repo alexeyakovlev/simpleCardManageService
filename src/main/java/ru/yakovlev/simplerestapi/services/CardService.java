@@ -36,7 +36,7 @@ public class CardService {
         return cardRepository.findByOwner(owner);
     }
 
-    public Card getCardByNumber(String number) {
+    public Card getCardByNumber(Long number) {
         Optional<Card> card = cardRepository.findByNumber(number);
         if (!card.isPresent()) {
             throw new IllegalArgumentException("Card with number " + number + " not found");
@@ -60,23 +60,6 @@ public class CardService {
             throw new IllegalArgumentException("Card with id " + id + " not found");
         }
         cardRepository.delete(card.get());
-    }
-
-    @Transactional
-    public void blockCard (Long id) {
-        Optional<Card> optionalCard = cardRepository.findById(id);
-        if (!optionalCard.isPresent()) {
-            throw new IllegalArgumentException("Card with id " + id + " not found");
-        }
-        Card card = optionalCard.get();
-        if(card.getStatus().equals(Status.ACTIVE)) {
-            card.setStatus(Status.BLOCKED);
-            log.info("Card with id " + id + " blocked");
-        } else {
-            card.setStatus(Status.ACTIVE);
-            log.info("Card with id " + id + " unblocked");
-        }
-        cardRepository.save(card);
     }
 
     @Transactional
@@ -135,5 +118,16 @@ public class CardService {
         card.setBalance(card.getBalance().subtract(amount));
         cardRepository.save(card);
         log.info("The id " + id + " card was withdrawn in the amount of " + amount);
+    }
+
+    public void changeCardStatus(Long number, Status status) {
+        Optional<Card> optionalCard = cardRepository.findById(number);
+        if (!optionalCard.isPresent()) {
+            throw new IllegalArgumentException("Card with number " + number + " not found");
+        }
+        Card card = optionalCard.get();
+        card.setStatus(status);
+        cardRepository.save(card);
+        log.info("The id " + number + " card was changed to " + status);
     }
 }

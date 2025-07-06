@@ -17,5 +17,5 @@ public interface CardRepository extends JpaRepository<Card, Long> {
     List<Card> findByOwner(@Param(value = "owner") User owner);
 
     @Query(value = "select * from cards where number = :number", nativeQuery = true)
-    Optional<Card> findByNumber(@Param(value = "number") String number);
+    Optional<Card> findByNumber(@Param(value = "number") Long number);
 }
