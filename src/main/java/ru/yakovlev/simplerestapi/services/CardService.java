@@ -115,6 +115,7 @@ public class CardService {
             throw new IllegalArgumentException("Card with id " + id + " not found");
         }
         Card card = optionalCard.get();
+        //TODO will add exception with balance on card
         card.setBalance(card.getBalance().subtract(amount));
         cardRepository.save(card);
         log.info("The id " + id + " card was withdrawn in the amount of " + amount);

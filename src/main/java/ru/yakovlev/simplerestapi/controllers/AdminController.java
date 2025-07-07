@@ -53,7 +53,7 @@ public class AdminController {
     public String userEdit(@PathVariable("user") User user, Model model) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
-        return "redirect:/admin/user/{user}";
+        return "user-edit";
     }
 
     @GetMapping("/admin/cards")
@@ -77,6 +77,6 @@ public class AdminController {
     @PutMapping("/admin/cards/edit/{id}")
     public String editCard(@PathVariable("id") Long id, Model model) {
         model.addAttribute("card", cardService.getCardById(id));
-        return "card-info";
+        return "card-edit";
     }
 }
