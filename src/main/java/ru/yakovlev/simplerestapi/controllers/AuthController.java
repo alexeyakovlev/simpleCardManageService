@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import ru.yakovlev.simplerestapi.models.User;
 import ru.yakovlev.simplerestapi.services.UserService;
 
@@ -17,7 +16,7 @@ public class AuthController {
 
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
-        return "registration";
+        return "registration.ftlh";
     }
 
     @PostMapping("/registration")
@@ -27,12 +26,12 @@ public class AuthController {
             return "redirect:/login";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "registration";
+            return "registration.ftlh";
         }
     }
 
     @GetMapping("/login")
     public String showLoginForm() {
-        return "login";
+        return "login.ftlh";
     }
 }

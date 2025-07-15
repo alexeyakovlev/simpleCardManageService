@@ -116,6 +116,9 @@ public class CardService {
         }
         Card card = optionalCard.get();
         //TODO will add exception with balance on card
+        if (card.getBalance().compareTo(amount) < 0) {
+            throw new IllegalArgumentException("Card with id " + id + " balance is less than current balance");
+        }
         card.setBalance(card.getBalance().subtract(amount));
         cardRepository.save(card);
         log.info("The id " + id + " card was withdrawn in the amount of " + amount);

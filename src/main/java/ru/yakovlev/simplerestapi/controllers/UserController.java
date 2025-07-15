@@ -40,6 +40,16 @@ public class UserController {
         model.addAttribute("card", card);
         return "card-info";
     }
+    @GetMapping("/user/createCard")
+    public String createCard(@ModelAttribute Card card, Model model) {
+        try{
+            cardService.createCard(card);
+            return "redirect:/user/{user}";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
 
     @Transactional
     @GetMapping("/user/transfer")

@@ -1,6 +1,7 @@
 package ru.yakovlev.simplerestapi.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +29,7 @@ public class User implements UserDetails {
     @Size(min = 2, message = "Не меньше 2 символов")
     private String name;
 
+    @Email
     private String email;
 
     @Column(name = "date_of_birth")
